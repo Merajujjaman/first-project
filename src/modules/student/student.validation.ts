@@ -42,13 +42,13 @@ const localGuardianValidationSchema = z.object({
 });
 
 // Define the validation schema for Student
-const studentValidationSchema = z.object({
+const createStudentValidationSchema = z.object({
   body: z.object({
     password: z.string().max(20),
     student: z.object({
       name: userNameValidationSchema,
       gender: z.enum(['male', 'female', 'other']),
-      dateOfBirth: z.string().optional(),
+      dateOfBirth: z.date().optional(),
       email: z.string().email(),
       contactNo: z.string(),
       emergencyContactNo: z.string(),
@@ -57,10 +57,12 @@ const studentValidationSchema = z.object({
       permanentAddress: z.string(),
       guardian: guardianValidationSchema,
       localGuardian: localGuardianValidationSchema,
-      admissionSemester: z.string(),
       profileImg: z.string(),
     }),
   }),
 });
 
-export default studentValidationSchema;
+export const studentValidations={
+  createStudentValidationSchema
+} 
+
