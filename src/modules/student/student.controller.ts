@@ -5,7 +5,7 @@ import catchAsync from "../../utils/catchAsync";
 
 
 const getStudent = catchAsync(async (req, res) => {
-  const result = await StudentServices.getStudentFromDb();
+  const result = await StudentServices.getAllStudentFromDb();
   res.status(200).json({
     success: true,
     message: "student get data successfully !!",
@@ -13,12 +13,22 @@ const getStudent = catchAsync(async (req, res) => {
   });
 });
 
-const getSninglStudent = catchAsync(async (req, res) => {
+const getSingleStudent = catchAsync(async (req, res) => {
   const { studentId } = req.params;
   const result = await StudentServices.getSingleStudentFromDb(studentId);
   res.status(200).json({
     success: true,
     message: "student get single data successfully !!",
+    data: result,
+  });
+});
+const updateStudent = catchAsync(async (req, res) => {
+  const { studentId } = req.params;
+  const {student} = req.body
+  const result = await StudentServices.updateStudentToDb(studentId, student);
+  res.status(200).json({
+    success: true,
+    message: "student update successfully !!",
     data: result,
   });
 });
@@ -35,6 +45,7 @@ const deleteStudent = catchAsync(async (req, res) => {
 
 export const StudentController = {
   getStudent,
-  getSninglStudent,
+  getSingleStudent,
   deleteStudent,
+  updateStudent
 };

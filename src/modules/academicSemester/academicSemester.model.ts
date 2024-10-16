@@ -3,6 +3,7 @@ import {
   TAcademicSemester,
 } from "./academicSemester.interface";
 import { AcademicSemesterCode, AcademicSemesterName, Months } from "./academicSemester.constant";
+import AppError from "../../errors/AppError";
 
 
 
@@ -42,7 +43,7 @@ academicSemesterSchema.pre('save', async function (next){
         name: this.name
     })
     if(isSemesterExist){
-        throw new Error('Already exist this semester in this year')
+        throw new AppError(500,'Already exist this semester in this year')
     }
 
     next()

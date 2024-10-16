@@ -8,11 +8,11 @@ const createStudent = catchAsync(async (req, res) => {
   const { password, student: studentData } = req.body;
 
   // will call service function and send tha data
-  const result = await userServices.createSudentDb(password, studentData);
+  const result = await userServices.createStudentDb(password, studentData);
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
-    message: "Student is created succesfully",
+    message: "Student is created successfully",
     data: result,
   });
 });

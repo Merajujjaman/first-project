@@ -34,24 +34,25 @@ export type TStudent = {
   email: string;
   contactNo: string;
   emergencyContactNo: string;
-  bloogGroup?: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
+  bloodGroup?: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
   presentAddress: string;
   permanentAddress: string;
   guardian: TGuardian;
   localGuardian: TLocalGuardian;
   profileImg?: string;
   admissionSemester: Types.ObjectId;
+  academicDepartment: Types.ObjectId;
   isDeleted: boolean;
 };
 
-//creare custom instance methodes
-// export type StudentMethodes = {
+//create custom instance methods
+// export type StudentMethods = {
 //   isUserExist(id: string): Promise<TStudent | null>
 // }
-// export type StudentModel = Model<TStudent, {}, StudentMethodes>;
+// export type StudentModel = Model<TStudent, {}, StudentMethods>;
 //------------------------------
 
-//create custom static methodes
+//create custom static methods
 export interface StudentModel extends Model<TStudent> {
   isUserExist(id: string): Promise<TStudent | null>;
 }

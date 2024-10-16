@@ -110,7 +110,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       type: String,
       required: [true, "Emergency contact number is required"],
     },
-    bloogGroup: {
+    bloodGroup: {
       type: String,
       enum: {
         values: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
@@ -135,18 +135,22 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     },
     profileImg: { type: String },
     admissionSemester:{
-      type: Schema.Types.ObjectId
+      type: Schema.Types.ObjectId,
+      ref: "AcademicSemester",
+      required: [true, "Admission semester is required"],
+
+    },
+    academicDepartment:{
+      type: Schema.Types.ObjectId,
+      ref: "AcademicDepartment",
+      required: [true, "Academic department is required"],
+
     },
     isDeleted: {
       type: Boolean,
       default: false,
     },
   },
-  {
-    toJSON: {
-      virtuals: true,
-    },
-  }
 );
 
 //-------virtual----------------//
@@ -156,7 +160,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
 //   )
 // })
 
-//------------mongoos middleware----------------------//
+//------------mongoose middleware----------------------//
 
 
 //post save middleware/hook
@@ -166,7 +170,7 @@ studentSchema.post("save", function (doc, next) {
   next();
 });
 
-//---------------Mongoos query middleware---------------
+//---------------Mongoose query middleware---------------
 studentSchema.pre("find", function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
@@ -184,7 +188,7 @@ studentSchema.pre("aggregate", function (next) {
 });
 
 // ---------------------------------------------------//
-// create custom instance methodes
+// create custom instance methods
 // studentSchema.methods.isUserExist = async function(id: string){
 //   const existingUser = await Student.findOne({id: id})
 //   return existingUser
