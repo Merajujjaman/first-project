@@ -5,6 +5,7 @@ import { ZodError, ZodIssue } from "zod";
 import { TErrorSources } from "../interface/error";
 import handleZodError from "../errors/handleZodError";
 import config from "../config";
+import handleValidationError from "../errors/handleValidationError";
 
 const globalErrorHandler : ErrorRequestHandler = (err,req,res,next) => {
   let statusCode = err.statusCode || 500;
@@ -23,9 +24,14 @@ const globalErrorHandler : ErrorRequestHandler = (err,req,res,next) => {
     
     const simplifiedError = handleZodError(err)
     
-    message = simplifiedError.message;
-    statusCode = simplifiedError.statusCode;
-    errorSources = simplifiedError.errorSources;
+    message = simplifiedError?.message;
+    statusCode = simplifiedError?.statusCode;
+    errorSources = simplifiedError?.errorSources;
+  }else if( err?.name === 'ValidationError'){
+    const simplifiedError = handleValidationError(err)
+    message = simplifiedError?.message;
+    statusCode = simplifiedError?.statusCode;
+    errorSources = simplifiedError?.errorSources;
   }
 
 
