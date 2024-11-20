@@ -26,7 +26,6 @@ academicDepartmentSchema.pre('save', async function (next) {
     throw new AppError (500,"This Department already exist!")
   }
   next()
-  
 })
 
 academicDepartmentSchema.pre('findOneAndUpdate', async function (next){
