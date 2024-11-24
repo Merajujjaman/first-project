@@ -16,12 +16,12 @@ app.use(cors());
 
 app.use("/api/v1", router)
 
-
-app.get("/", (req: Request, res: Response) => {
+const test = (req: Request, res: Response) => {
   const a = "Hello developer!!";
-
   res.send(a);
-});
+}
+
+app.get("/", test);
 
 //global error handler:
 app.use(globalErrorHandler)
