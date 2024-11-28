@@ -8,14 +8,57 @@ import { TStudent } from "./student.interface";
 
 
 
-const getAllStudentFromDb = async() => {
-    const result = await Student.find().populate('admissionSemester').populate({
+const getAllStudentFromDb = async(query : Record<string, unknown>) => {
+    const queryObject = {...query} 
+    let searchTerm = ""
+    if(query.searchTerm){
+        searchTerm = query?.searchTerm as string ;
+    }
+
+    const studentSearchAbleFields = ['email', 'name.firstName']
+
+    const searchQuery = Student.find({
+        $or: studentSearchAbleFields.map((field) => ({[field]: { $regex: searchTerm, $options: 'i' }}))
+    })
+
+    //filtering
+    const excludeFields = ['searchTerm', 'sort', 'limit', 'page', 'fields']
+    excludeFields.forEach(element => delete queryObject[element])
+    const filterQuery = searchQuery.find(queryObject).populate('admissionSemester').populate({
         path: "academicDepartment",
         populate: {
             path: "academicFaculty"
         }
     })
-    return result;
+
+    //sorting
+    let sort ="-createdAt"
+    if(query.sort){
+        sort = query.sort as string
+    }
+    const sortQuery = filterQuery.sort(sort)
+
+    //limiting
+    let limit = 1;
+    let page = 1;
+    let skip = 0;
+    if(query.limit){
+        limit = Number(query.limit)
+    }
+
+    if(query.page){
+        page = Number(query.page)
+        skip = (page-1)*limit
+    }
+    const paginateQuery = sortQuery.skip(skip)
+    const limitQuery = paginateQuery.limit(limit)
+
+    let fields = '-__v'
+    if(query.fields){
+        fields = (query.fields as string).split(',').join(' ')
+    }
+    const fieldsQuery = limitQuery.select(fields)
+    return fieldsQuery ;
 }
 
 const getSingleStudentFromDb = async(id : string) => {
