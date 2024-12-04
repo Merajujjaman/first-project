@@ -1,20 +1,28 @@
 import express from "express";
-import { userController } from "./user.controller";
+import {  userControllers } from "./user.controller";
 import { studentValidations } from "../student/student.validation";
 import validateRequest from "../../middlewares/validateRequest";
 import { createFacultyValidationSchema } from "../faculty/faculty.validation";
+import { createAdminValidationSchema } from "../admin/admin.validation";
 const router = express.Router();
 
 router.post(
   "/create-student",
   validateRequest(studentValidations.createStudentValidationSchema),
-  userController.createStudent
+  userControllers.createStudent
 );
 
 router.post(
   '/create-faculty',
   validateRequest(createFacultyValidationSchema),
-  userController.createFaculty,
+  userControllers.createFaculty,
 );
+
+router.post(
+  '/create-admin',
+  validateRequest(createAdminValidationSchema),
+  userControllers.createAdmin,
+);
+
 
 export const userRouts = router;

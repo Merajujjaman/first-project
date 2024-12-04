@@ -9,7 +9,7 @@ import { User } from "../user/user.model";
 import mongoose from "mongoose";
 
 const getSingleFacultyFromDb = async (id: string) => {
-  const result = await Faculty.findOne({ id }).populate({
+  const result = await Faculty.findById(id).populate({
     path: "academicDepartment",
     populate: {
       path: "academicFaculty",
@@ -55,7 +55,7 @@ const updateFacultyIntoDB = async (id: string, payload: Partial<TFaculty>) => {
     }
   }
 
-  const result = await Faculty.findOneAndUpdate({id}, modifiedUpdatedData, {
+  const result = await Faculty.findByIdAndUpdate({id}, modifiedUpdatedData, {
     new: true,
     runValidators: true,
   });
@@ -67,7 +67,7 @@ const deleteFacultyFromDb = async(id: string) => {
     const session = await mongoose.startSession()
     try {
         session.startTransaction()
-        const deleteFaculty = await Faculty.findOneAndUpdate({id}, {isDeleted: true}, {new: true, session})
+        const deleteFaculty = await Faculty.findByIdAndUpdate({id}, {isDeleted: true}, {new: true, session})
         if(!deleteFaculty){
             throw new AppError(httpStatus.BAD_REQUEST, 'Failed to delete faculty')
         }
@@ -81,6 +81,7 @@ const deleteFacultyFromDb = async(id: string) => {
 
         await session.commitTransaction()
         await session.endSession()
+        return deleteFaculty;
     } catch (error: any) {
         await session.abortTransaction();
         await session.endSession();

@@ -2,8 +2,6 @@
 import { StudentServices } from "./student.service";
 import catchAsync from "../../utils/catchAsync";
 
-
-
 const getStudent = catchAsync(async (req, res) => {
   const result = await StudentServices.getAllStudentFromDb(req.query);
   res.status(200).json({
@@ -14,8 +12,8 @@ const getStudent = catchAsync(async (req, res) => {
 });
 
 const getSingleStudent = catchAsync(async (req, res) => {
-  const { studentId } = req.params;
-  const result = await StudentServices.getSingleStudentFromDb(studentId);
+  const { id } = req.params;
+  const result = await StudentServices.getSingleStudentFromDb(id);
   res.status(200).json({
     success: true,
     message: "student get single data successfully !!",
@@ -23,9 +21,9 @@ const getSingleStudent = catchAsync(async (req, res) => {
   });
 });
 const updateStudent = catchAsync(async (req, res) => {
-  const { studentId } = req.params;
-  const {student} = req.body
-  const result = await StudentServices.updateStudentToDb(studentId, student);
+  const { id } = req.params;
+  const { student } = req.body;
+  const result = await StudentServices.updateStudentToDb(id, student);
   res.status(200).json({
     success: true,
     message: "student update successfully !!",
@@ -34,8 +32,8 @@ const updateStudent = catchAsync(async (req, res) => {
 });
 
 const deleteStudent = catchAsync(async (req, res) => {
-  const { studentId } = req.params;
-  const result = await StudentServices.deleteStudentFromDb(studentId);
+  const { id } = req.params;
+  const result = await StudentServices.deleteStudentFromDb(id);
   res.status(200).json({
     success: true,
     message: "student data deleted successfully !!",
@@ -47,5 +45,5 @@ export const StudentController = {
   getStudent,
   getSingleStudent,
   deleteStudent,
-  updateStudent
+  updateStudent,
 };
