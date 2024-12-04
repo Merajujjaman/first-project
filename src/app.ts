@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 
-//app ruters
+//app routers
 // app.use("/api/v1/students", studentRouts)
 // app.use("/api/v1/users", userRouts)
 

@@ -11,8 +11,8 @@ const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     trim: true,
-    required: [true, "First name is requred"],
-    maxlength: [10, "First name con not be more then 10 charecters"],
+    required: [true, "First name is required"],
+    maxlength: [10, "First name con not be more then 10 characters"],
   },
   middleName: {
     type: String,
@@ -21,8 +21,8 @@ const userNameSchema = new Schema<TUserName>({
   lastName: {
     type: String,
     trim: true,
-    required: [true, "Last name is requred"],
-    maxlength: [10, "First name con not be more then 10 charecters"],
+    required: [true, "Last name is required"],
+    maxlength: [10, "First name con not be more then 10 characters"],
   },
 });
 
@@ -151,6 +151,9 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       default: false,
     },
   },
+  {
+    timestamps: true
+  }
 );
 
 //-------virtual----------------
@@ -194,7 +197,7 @@ studentSchema.pre("aggregate", function (next) {
 //   return existingUser
 // }
 
-//create custom static methode
+//create custom static method
 studentSchema.statics.isUserExist = async function (id: string) {
   const existingUser = await Student.findOne({ id: id });
   return existingUser;

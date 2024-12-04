@@ -1,4 +1,4 @@
-import { TAcademicDepartment } from "./academicDepartment.iterface";
+import { TAcademicDepartment } from "./academicDepartment.interface";
 import { AcademicDepartment } from "./academicDepartment.model";
 
 
