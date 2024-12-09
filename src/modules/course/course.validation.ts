@@ -40,6 +40,7 @@ const facultiesWithCourseValidationSchema = z.object({
   }),
 });
 
+
 export const courseValidations = {
   createCourseValidationSchema,
   updateCourseValidationSchema,
