@@ -14,6 +14,7 @@ router.post(
 );
 router.get("/", semesterRegistrationControllers.getAllSemesterRegistrations);
 router.get("/:id", semesterRegistrationControllers.getSingleRegistration);
+
 router.patch(
   "/:id",
   validateRequest(
