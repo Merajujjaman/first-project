@@ -22,6 +22,8 @@ const createStudentDb = async (password: string, studentData: TStudent) => {
   newUserData.password = password || (config.default_password as string);
   //set student role
   newUserData.role = "student";
+  //set Email
+  newUserData.email = studentData.email;
 
   // get semester data from db
   const admissionSemester = await AcademicSemester.findById(
@@ -69,6 +71,8 @@ const createFacultyIntoDB = async (password: string, payload: TFaculty) => {
 
   //set student role
   userData.role = 'faculty';
+  //set Email
+  userData.email = payload.email;
 
   // find academic department info
   const academicDepartment = await AcademicDepartment.findById(
@@ -126,6 +130,8 @@ const createAdminIntoDB = async (password: string, payload: TFaculty) => {
 
   //set student role
   userData.role = 'admin';
+  //set Email
+  userData.email = payload.email;
 
   const session = await mongoose.startSession();
 
